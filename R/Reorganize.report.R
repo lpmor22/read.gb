@@ -23,7 +23,7 @@ Reorganize.report <- function(Temp){
   VERSION <- gsub("\r", "", VERSION)
 
   Db <- gregexpr("DBLINK", Temp)[[1]][1]
-  De <- gregexpr("nKEYWORDS.", Temp)[[1]][1]
+  De <- gregexpr("\\nKEYWORDS", Temp)[[1]][1]
   if(Db > 0){
     DBLINKa <- substr(Temp, Db+6, De-1)
     DBLINKa <- gsub("^ |(?<= ) | *$", "", DBLINKa, perl = TRUE)
@@ -36,7 +36,7 @@ Reorganize.report <- function(Temp){
     }
   }
 
-  KEYWORDS <- gsub(".*KEYWORDS([^.]+)|\n.*", "\\1", Temp)
+  KEYWORDS <- gsub(".*KEYWORDS([^.]+)|\nSOURCE.*", "\\1", Temp)
   KEYWORDS <- gsub("^ *|(?<= ) | *$", "", KEYWORDS, perl = TRUE)
   KEYWORDS <- gsub("\n", "", KEYWORDS)
   KEYWORDS <- gsub("\r", "", KEYWORDS)
@@ -48,11 +48,21 @@ Reorganize.report <- function(Temp){
   SOURCE <- gsub("\n", "", SOURCE)
   SOURCE <- gsub("\r", "", SOURCE)
 
-  ORGANISM <- gsub(".*ORGANISM([^.]+)|\nREFERENCE.*", "\\1", Temp)
-  ORGANISM <- gsub("^ *|(?<= ) | *$", "", ORGANISM, perl = TRUE)
-  ORGANISM <- gsub("\n", "", ORGANISM)
-  ORGANISM <- gsub("\r", "", ORGANISM)
+  if(length(grep("REFERENCE", Temp)) == 1){
+    ORGANISM <- gsub(".*ORGANISM([^.]+)|\nREFERENCE.*", "\\1", Temp)
+    ORGANISM <- gsub("^ *|(?<= ) | *$", "", ORGANISM, perl = TRUE)
+    ORGANISM <- gsub("\n", "", ORGANISM)
+    ORGANISM <- gsub("\r", "", ORGANISM)
+  }
+  
+  if(length(grep("REFERENCE", Temp)) == 0 && length(grep("COMMENT", Temp)) == 1){
+    ORGANISM <- gsub(".*ORGANISM([^.]+)|\nCOMMENT.*", "\\1", Temp)
+    ORGANISM <- gsub("^ *|(?<= ) | *$", "", ORGANISM, perl = TRUE)
+    ORGANISM <- gsub("\n", "", ORGANISM)
+    ORGANISM <- gsub("\r", "", ORGANISM)
 
+  }
+  
   ## Position of REFERENCE:
   Rb <- gregexpr("REFERENCE", Temp)[[1]][1]
   Rem <- c(gregexpr("FEATURES", Temp)[[1]][1], gregexpr("COMMENT", Temp)[[1]][1])
@@ -66,33 +76,28 @@ Reorganize.report <- function(Temp){
     COMMENT <- substr(Temp, Cb+7, Ce-1)
     COMMENT <- gsub("\r", "", COMMENT)
     COMMENT <- as.data.frame(strsplit(COMMENT, split = "\\n", perl = T)[[1]], stringsAsFactors = F)
-    COMMENT <- apply(COMMENT, 1 , function(x){gsub(" {2,}", " ", x, perl = TRUE)})
+    COMMENT <- apply(COMMENT, 1 , function(x){gsub(" {2,}", " ", x, perl = TRUE); gsub("^ *", "", x, perl = TRUE)})
   }
 
   ## Position of FEATURES:
   Fb <- gregexpr("FEATURES", Temp)[[1]][1]
   Fe <- gregexpr("ORIGIN", Temp, ignore.case = F)[[1]][1]
-  if(Fe == -1){
-    Fe <- gregexpr("CONTIG", Temp, ignore.case = F)[[1]][1]
-  }
   FEATURES <- substr(Temp, Fb+8, Fe-1)
   FEATURES <- gsub("\r", "", FEATURES)
   FEATURES <- strsplit(FEATURES, split = "\n", fixed = T)
 
   Ob <- gregexpr("ORIGIN", Temp, useBytes = F)[[1]][1]
   Oe <- gregexpr("$", Temp, useBytes = F)[[1]][1]
-  if(Ob != -1){
   ORIGIN <- substr(Temp, Ob+6, Oe-2)
   ORIGIN <- gsub("\r", "", ORIGIN)
   ORIGIN <- strsplit(ORIGIN, split = "\n", fixed = T)
   ORIGIN <- ORIGIN[[1]][-1]
-  }
 
   #### Grouping into a list ####
-  Order <- c("LOCUS", "DEFINITION", "ACCESSION", "VERSION", "DBLINK", "KEYWORDS", "SOURCE", "ORGANISM", "REFERENCE", "COMMENT", "FEATURES", "ORIGIN")
-  if(exists("COMMENT") == F){Order <- Order[-which(gregexpr("COMMENT", Order) != -1)]}
-  if(exists("DBLINK") == F){Order <- Order[-which(gregexpr("DBLINK", Order) != -1)]}
-  if(exists("ORIGIN") == F){Order <- Order[-which(gregexpr("ORIGIN", Order) != -1)]}
+  if(exists("COMMENT") == T & exists("DBLINK") == T){Order <- c("LOCUS", "DEFINITION", "ACCESSION", "VERSION", "DBLINK", "KEYWORDS", "SOURCE", "ORGANISM", "REFERENCE", "COMMENT", "FEATURES", "ORIGIN")}
+  if(exists("COMMENT") == T & exists("DBLINK") == F){Order <- c("LOCUS", "DEFINITION", "ACCESSION", "VERSION", "KEYWORDS", "SOURCE", "ORGANISM", "REFERENCE", "COMMENT", "FEATURES", "ORIGIN")}
+  if(exists("COMMENT") == F & exists("DBLINK") == T){Order <- c("LOCUS", "DEFINITION", "ACCESSION", "VERSION", "DBLINK", "KEYWORDS", "SOURCE", "ORGANISM", "REFERENCE", "FEATURES", "ORIGIN")}
+  if(exists("COMMENT") == F & exists("DBLINK") == F){Order <- c("LOCUS", "DEFINITION", "ACCESSION", "VERSION", "KEYWORDS", "SOURCE", "ORGANISM", "REFERENCE", "FEATURES", "ORIGIN")}
 
   y <- list()
   for(i in 1:length(Order)){

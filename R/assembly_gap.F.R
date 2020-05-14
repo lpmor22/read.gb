@@ -7,13 +7,13 @@ assembly_gap.F <- function(Feat, SQuali, SQualiN){
     for(j in 1:length(Item)){
       if(length(grep(Item[j], Feat[i], perl = T)) == 1){
         assembly_gap <- rbind(assembly_gap, c(ItemN[j],  gsub(".*=([^.]+)\"*", "\\1", Feat[i])))
-        if((length(grep("\\\\\"$|\"\\\", $", Feat[i])) == 0 & i != length(Feat)) == T){
+        if((length(grep("\\\\\"$|\"\\\", $|\\d$", Feat[i])) == 0 & i != length(Feat)) == T){
           t <- i+1
-          while(length(grep("\\\\\"$|\"\\\", $", Feat[t])) == 0){
+          while(length(grep("\\\\\"$|\"\\\", $|\\d$", Feat[t])) == 0 && t <= length(Feat)){
             assembly_gap[dim(assembly_gap)[1],2] <- paste(assembly_gap[dim(assembly_gap)[1],2], gsub("\\s", " ", Feat[t]), sep = " ")
             t <- t+1
           }
-          if(length(grep("\\\\\"$|\"\\\", $", Feat[t])) == 1){
+          if(length(grep("\\\\\"$|\"\\\", $|\\d$", Feat[t])) == 1){
             assembly_gap[dim(assembly_gap)[1],2] <- paste(assembly_gap[dim(assembly_gap)[1],2], gsub("\\s", " ", Feat[t]), sep = " ")
           }
         }

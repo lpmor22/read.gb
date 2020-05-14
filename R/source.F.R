@@ -9,7 +9,7 @@ source.F <- function(Feat, SQuali, SQualiN){
         source <- rbind(source, c(ItemN[j],  gsub(".*=([^.]+)\"*", "\\1", Feat[i])))
         if((length(grep("\\\\\"$|\"\\\", $", Feat[i])) == 0 & i != length(Feat)) == T){
           t <- i+1
-          while(length(grep("\\\\\"$|\"\\\", $", Feat[t])) == 0){
+          while(length(grep("\\\\\"$|\"\\\", $", Feat[t])) == 0 && t <= length(Feat)){
             source[dim(source)[1],2] <- paste(source[dim(source)[1],2], gsub("\\s", " ", Feat[t]), sep = " ")
             t <- t+1
           }

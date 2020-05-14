@@ -7,13 +7,13 @@ misc_recomb.F <- function(Feat, SQuali, SQualiN){
     for(j in 1:length(Item)){
       if(length(grep(Item[j], Feat[i], perl = T)) == 1){
         misc_recomb <- rbind(misc_recomb, c(ItemN[j],  gsub(".*=([^.]+)\"*", "\\1", Feat[i])))
-        if((length(grep("\\\\\"$|\"\\\", $", Feat[i])) == 0 & i != length(Feat)) == T){
+        if((length(grep("\\\\\"$|\"\\\", $|\\d$", Feat[i])) == 0 & i != length(Feat)) == T){
           t <- i+1
-          while(length(grep("\\\\\"$|\"\\\", $", Feat[t])) == 0){
+          while(length(grep("\\\\\"$|\"\\\", $|\\d$", Feat[t])) == 0 && t <= length(Feat)){
             misc_recomb[dim(misc_recomb)[1],2] <- paste(misc_recomb[dim(misc_recomb)[1],2], gsub("\\s", " ", Feat[t]), sep = " ")
             t <- t+1
           }
-          if(length(grep("\\\\\"$|\"\\\", $", Feat[t])) == 1){
+          if(length(grep("\\\\\"$|\"\\\", $|\\d$", Feat[t])) == 1){
             misc_recomb[dim(misc_recomb)[1],2] <- paste(misc_recomb[dim(misc_recomb)[1],2], gsub("\\s", " ", Feat[t]), sep = " ")
           }
         }

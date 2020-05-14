@@ -7,13 +7,13 @@ misc_feature.F <- function(Feat, SQuali, SQualiN){
     for(j in 1:length(Item)){
       if(length(grep(Item[j], Feat[i], perl = T)) == 1){
         misc_feature <- rbind(misc_feature, c(ItemN[j],  gsub(".*=([^.]+)\"*", "\\1", Feat[i])))
-        if((length(grep("\\\\\"$|\"\\\", $", Feat[i])) == 0 & i != length(Feat)) == T){
+        if((length(grep("\\\\\"$|\"\\\", $|\\d$", Feat[i])) == 0 & i != length(Feat)) == T){
           t <- i+1
-          while(length(grep("\\\\\"$|\"\\\", $", Feat[t])) == 0){
+          while(length(grep("\\\\\"$|\"\\\", $|\\d$", Feat[t])) == 0 && t <= length(Feat)){
             misc_feature[dim(misc_feature)[1],2] <- paste(misc_feature[dim(misc_feature)[1],2], gsub("\\s", " ", Feat[t]), sep = " ")
             t <- t+1
           }
-          if(length(grep("\\\\\"$|\"\\\", $", Feat[t])) == 1){
+          if(length(grep("\\\\\"$|\"\\\", $|\\d$", Feat[t])) == 1){
             misc_feature[dim(misc_feature)[1],2] <- paste(misc_feature[dim(misc_feature)[1],2], gsub("\\s", " ", Feat[t]), sep = " ")
           }
         }

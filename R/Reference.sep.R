@@ -13,9 +13,17 @@ Reference.sep <- function(y){
         if(length(grep("AUTHORS", Ref[j])) == 1){
           reference <- rbind(reference, c("AUTHORS", gsub(".*AUTHORS([^.]+)\"*", "\\1", Ref[j])))
           t <- j+1
-          while(length(grep("TITLE", Ref[t])) == 0){
-            reference[dim(reference)[1],2] <- paste(reference[dim(reference)[1],2], gsub("\\s", " ", Ref[t]), sep = "")
-            t <- t+1
+
+          if(length(grep("TITLE", Ref)) == 1){
+            while(length(grep("TITLE", Ref[t])) == 0){
+              reference[dim(reference)[1],2] <- paste(reference[dim(reference)[1],2], gsub("\\s", " ", Ref[t]), sep = "")
+              t <- t+1
+            }
+          } else {
+            while(length(grep("JOURNAL", Ref[t])) == 0){
+              reference[dim(reference)[1],2] <- paste(reference[dim(reference)[1],2], gsub("\\s", " ", Ref[t]), sep = "")
+              t <- t+1
+            }
           }
         }
         if(length(grep("TITLE", Ref[j])) == 1){

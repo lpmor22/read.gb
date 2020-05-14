@@ -7,13 +7,13 @@ rep_origin.F <- function(Feat, SQuali, SQualiN){
     for(j in 1:length(Item)){
       if(length(grep(Item[j], Feat[i], perl = T)) == 1){
         rep_origin <- rbind(rep_origin, c(ItemN[j],  gsub(".*=([^.]+)\"*", "\\1", Feat[i])))
-        if((length(grep("\\\\\"$|\"\\\", $", Feat[i])) == 0 & i != length(Feat)) == T){
+        if((length(grep("\\\\\"$|\"\\\", $|\\d$", Feat[i])) == 0 & i != length(Feat)) == T){
           t <- i+1
-          while(length(grep("\\\\\"$|\"\\\", $", Feat[t])) == 0){
+          while(length(grep("\\\\\"$|\"\\\", $|\\d$", Feat[t])) == 0 && t <= length(Feat)){
             rep_origin[dim(rep_origin)[1],2] <- paste(rep_origin[dim(rep_origin)[1],2], gsub("\\s", " ", Feat[t]), sep = " ")
             t <- t+1
           }
-          if(length(grep("\\\\\"$|\"\\\", $", Feat[t])) == 1){
+          if(length(grep("\\\\\"$|\"\\\", $|\\d$", Feat[t])) == 1){
             rep_origin[dim(rep_origin)[1],2] <- paste(rep_origin[dim(rep_origin)[1],2], gsub("\\s", " ", Feat[t]), sep = " ")
           }
         }

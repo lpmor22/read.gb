@@ -78,6 +78,7 @@ Feature.sep <- function(y){
       }
     }
   }
+  TagChr <- c(TagChr, nchar(TempF))
   TagChr <- sort(TagChr)
 
   for(k in 2:length(TagChr)){

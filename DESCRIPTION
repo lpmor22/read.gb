@@ -1,14 +1,14 @@
 Package: read.gb
 Type: Package
 Title: Open GenBank Files
-Version: 1.6
+Version: 2.0.1
 Author: Robin Mercier
 Maintainer: Robin Mercier <robin.largon.mercier@hotmail.fr>
 Description: Opens complete record(s) with .gb extension from the NCBI/GenBank Nucleotide database and returns a list containing shaped record(s). These kind of files contains detailed records of DNA samples (locus, organism, type of sequence, source of the sequence...). An example of record can be found at <https://www.ncbi.nlm.nih.gov/nuccore/HE799070>.
 License: GPL (>= 2.0)
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 6.0.1
+RoxygenNote: 7.1.0
 Collate: 'CDS.F.R' 'C_region.F.R' 'DNA.treatment.R' 'D_loop.F.R'
         'D_segment.F.R' 'F_UTR.F.R' 'variation.F.R' 'V_segment.F.R'
         'V_region.F.R' 'unsure.F.R' 'tRNA.F.R' 'transit_peptide.F.R'
@@ -24,9 +24,10 @@ Collate: 'CDS.F.R' 'C_region.F.R' 'DNA.treatment.R' 'D_loop.F.R'
         'misc_binding.F.R' 'mat_peptide.F.R' 'J_segment.F.R'
         'intron.F.R' 'iDNA.F.R' 'gene.F.R' 'gap.F.R' 'exon.F.R'
         'centromere.F.R' 'assembly_gap.F.R' 'Feature.sep.R'
-        'Reference.sep.R' 'Reorganize.report.R' 'read.gb-internal.R'
+        'Reference.sep.R' 'Reorganize.report.R' 'extract.gb.R'
         'read.gb.R'
+Depends: R (>= 2.10)
 NeedsCompilation: no
-Packaged: 2018-11-15 13:59:16 UTC; Largon
+Packaged: 2020-05-14 14:07:01 UTC; Largon
 Repository: CRAN
-Date/Publication: 2018-11-26 19:50:03 UTC
+Date/Publication: 2020-05-14 14:30:02 UTC
