@@ -1,4 +1,5 @@
-mobile_element.F <- function(Feat, SQuali, SQualiN){
+mobile_element.F <-
+function(Feat, SQuali, SQualiN){
   Item <- c("/allele=", "/citation=", "/db_xref=", "/experiment=", "/function=", "/gene=", "/gene_synonym=", "/inference=", "/locus_tag=", "/map=", "/mobile_element_type=", "/note=", "/old_locus_tag=", "/rpt_family=", "/rpt_type=", "/standard_name=")
   ItemN <- c("allele", "citation", "db_xref", "experiment", "function", "gene", "gene_synonym", "inference", "locus_tag", "map", "mobile_element_type", "note", "old_locus_tag", "rpt_family", "rpt_type", "standard_name")
   Feat[length(Feat)] <- gsub("\\\",$", "", Feat[length(Feat)])

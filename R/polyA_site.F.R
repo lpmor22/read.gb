@@ -1,4 +1,5 @@
-polyA_site.F <- function(Feat, SQuali, SQualiN){
+polyA_site.F <-
+function(Feat, SQuali, SQualiN){
   Item <- c("/allele=", "/citation=", "/db_xref=", "/experiment=", "/gene=", "/gene_synonym=", "/inference=", "/locus_tag=", "/map=", "/note=", "/old_locus_tag=")
   ItemN <- c("allele", "citation", "db_xref", "experiment", "gene", "gene_synonym", "inference", "locus_tag", "map", "note", "old_locus_tag")
   Feat[length(Feat)] <- gsub("\\\",$", "", Feat[length(Feat)])

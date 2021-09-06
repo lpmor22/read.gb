@@ -1,4 +1,5 @@
-CDS.F <- function(Feat, SQuali, SQualiN){
+CDS.F <-
+function(Feat, SQuali, SQualiN){
   Item <- c("/allele=", "/artificial_location=", "/citation=", "/codon_start=", "/db_xref=", "/EC_number=", "/exception=", "/experiment=", "/function=", "/gene=", "/gene_synonym=", "/inference=", "/locus_tag=", "/map=", "/note=", "/number=", "/old_locus_tag=", "/operon=", "/product=", "/protein_id=", "/pseudogene=", "/standard_name=", "/translation=", "/transl_except=", "/transl_table=")
   ItemN <- c("allele", "artificial_location", "citation", "codon_start", "db_xref", "EC_number", "exception", "experiment", "function", "gene", "gene_synonym", "inference", "locus_tag", "map", "note",  "number", "old_locus_tag", "operon", "product", "protein_id", "pseudogene", "standard_name", "translation", "transl_except", "transl_table")
   Feat[length(Feat)] <- gsub("\\\",$", "", Feat[length(Feat)])
@@ -25,7 +26,7 @@ CDS.F <- function(Feat, SQuali, SQualiN){
       }
     }
   }
-  CDS <- apply(CDS, 2, function(x){gsub(" {2,}", " ", x, perl = TRUE)})
+  CDS <- apply(CDS, 2, function(x){gsub(" {2,}", "", x, perl = TRUE)})
   CDS <- apply(CDS, 2, function(x){gsub("\"", "", x, fixed = T)})
   CDS <- apply(CDS, 2, function(x){gsub("\\", "", x, fixed = T)})
   CDS <- apply(CDS, 2, function(x){gsub("[^[:alnum:][:space:][]'.,:_<>()-]", "", x, perl = TRUE)})

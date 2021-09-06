@@ -1,25 +1,27 @@
-Reference.sep <- function(y){
+Reference.sep <-
+function(y){
   TempR <- y$REFERENCE
   c <- sort(c(gregexpr("REFERENCE", TempR)[[1]], nchar(TempR)))
   Reference <- list()
-
+  
   for(i in 2:length(c)){
     Ref <- substr(TempR, c[i-1], c[i]-1)
     Ref <- unlist(strsplit(Ref, "\\n", fixed = F))
-
+    
     if(length(grep("REFERENCE", Ref[1])) == 1){
       reference <- data.frame("Name" = "REFERENCE", "Detail" = gsub(".*REFERENCE +([^.]+)\"*", "\\1", Ref[1], perl = T), stringsAsFactors = F)
       for(j in 2:length(Ref)){
         if(length(grep("AUTHORS", Ref[j])) == 1){
           reference <- rbind(reference, c("AUTHORS", gsub(".*AUTHORS([^.]+)\"*", "\\1", Ref[j])))
           t <- j+1
-
+          
           if(length(grep("TITLE", Ref)) == 1){
             while(length(grep("TITLE", Ref[t])) == 0){
               reference[dim(reference)[1],2] <- paste(reference[dim(reference)[1],2], gsub("\\s", " ", Ref[t]), sep = "")
               t <- t+1
             }
-          } else {
+          } 
+          if(length(grep("TITLE", Ref)) == 1){
             while(length(grep("JOURNAL", Ref[t])) == 0){
               reference[dim(reference)[1],2] <- paste(reference[dim(reference)[1],2], gsub("\\s", " ", Ref[t]), sep = "")
               t <- t+1

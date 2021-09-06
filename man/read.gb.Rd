@@ -19,12 +19,17 @@ read.gb(x, DNA = TRUE, Type = "full", Source = "File")
 Returns a table containing the data
 }
 \description{
-This function opens complete record(s) with .gb extension from the NCBI/GenBank Nucleotide database and returns a list containing shaped record(s). These kind of files contains detailed records of DNA samples (locus, organism, type of sequence, source of the sequence...). An example of record can be found at <https://www.ncbi.nlm.nih.gov/nuccore/HE799070>. Records with > 200'000 bp may experience long processing times, especially if they have numerous FEATURES items. Also works for reports obtained with rentrez package.
+This function opens complete record(s) with .gb extension from the NCBI/GenBank Nucleotide database and returns a list containing shaped record(s). These kind of files contains detailed records of DNA samples (locus, organism, type of sequence, source of the sequence...). An example of record can be found at \url{https://www.ncbi.nlm.nih.gov/nuccore/HE799070}. Records with > 200'000 bp may experience long processing times, especially if they have numerous FEATURES items. Also works for reports obtained with rentrez package.
 }
 \examples{
 \dontrun{
 read.gb(File = "sequence.gb", DNA = TRUE, Type = "full", Source = "File")
-read.gb(File = Object, DNA = TRUE, Type = "full", Source = "Char")
+}
+
+\dontrun{
+require(rentrez)
+data <- rentrez::entrez_fetch(db = "Nucleotide", id = "508082122", rettype = "gb")
+read.gb(File = data, DNA = TRUE, Type = "full", Source = "Char")
 }
 
 }

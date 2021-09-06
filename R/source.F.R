@@ -1,4 +1,5 @@
-source.F <- function(Feat, SQuali, SQualiN){
+source.F <-
+function(Feat, SQuali, SQualiN){
   Item <- c("/altitude=", "/bio_material=", "/cell_line=", "/cell_type=", "/chromosome=", "/citation=", "/clone=", "/clone_lib=", "/collected_by=", "/collection_date=", "/country=", "/cultivar=", "/culture_collection=", "/db_xref=", "/dev_stage=", "/ecotype=", "/haplogroup=", "/haplotype=", "/host=", "/identified_by=", "/isolate=", "/isolation_source=", "/lab_host=", "/lat_lon=", "/map=", "/mating_type=", "/mol_type=", "/note=", "/organelle=", "/organism=", "/plasmid=", "/pop_variant=", "/segment=", "/serotype=", "/serovar=", "/sex=", "/specimen_voucher=", "/strain=", "/sub_clone=", "/submitter_seqid=", "/sub_species=", "/sub_strain=", "/tissue_lib=", "/tissue_type=", "/type_material=", "/variety=")
   ItemN <- c("altitude", "bio_material", "cell_line", "cell_type", "chromosome", "citation", "clone", "clone_lib", "collected_by", "collection_date", "country", "cultivar", "culture_collection", "db_xref", "dev_stage", "ecotype", "haplogroup", "haplotype", "host", "identified_by", "isolate", "isolation_source", "lab_host", "lat_lon", "map", "mating_type", "mol_type", "note", "organelle", "organism", "plasmid", "pop_variant", "segment", "serotype", "serovar", "sex", "specimen_voucher", "strain", "sub_clone", "submitter_seqid", "sub_species", "sub_strain", "tissue_lib", "tissue_type", "type_material", "variety")
   Feat[length(Feat)] <- gsub("\\\",$", "", Feat[length(Feat)])
@@ -24,14 +25,18 @@ source.F <- function(Feat, SQuali, SQualiN){
         source <- rbind(source, c(SQuali[k], SQualiN[k]))
       }
     }
+
+    ## If a PCR primers part is included in the source part :
     if(length(grep("PCR_primers=", Feat[i])) == 1){
       s <- gsub(".*=\\\\\\\"([^.]+)\"*", "\\1", Feat[i])
       k <-i+1
-      while(length(grep("\\\\\"$", Feat[k])) != 1){
+      while(length(grep("\\\\\"$", Feat[k])) != 1 && is.na(Feat[k]) == F){
         s <- paste(s, Feat[k], collapse = "")
         k <- k+1
       }
-      s <- paste(s, Feat[k], collapse = "")
+      if(is.na(Feat[k]) == F){
+        s <- paste(s, Feat[k], collapse = "")
+      }
       source <- rbind(source, c("PCR_primers",  s))
       source[length(source[,1]),2] <- gsub("\\\"", "", source[length(source[,1]),2], perl = TRUE)
     }

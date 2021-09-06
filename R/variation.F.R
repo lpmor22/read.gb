@@ -1,4 +1,5 @@
-variation.F <- function(Feat, SQuali, SQualiN){
+variation.F <-
+function(Feat, SQuali, SQualiN){
   Item <- c("/allele=", "/citation=", "/compare=", "/db_xref=", "/experiment=", "/frequency=", "/gene=", "/gene_synonym=", "/inference=", "/locus_tag=", "/map=", "/note=", "/old_locus_tag=", "/phenotype=", "/product=", "/replace=", "/standard_name=")
   ItemN <- c("allele", "citation", "compare", "db_xref", "experiment", "frequency", "gene", "gene_synonym", "inference", "locus_tag", "map", "note", "old_locus_tag", "phenotype", "product", "replace", "standard_name")
   Feat[length(Feat)] <- gsub("\\\",$", "", Feat[length(Feat)])

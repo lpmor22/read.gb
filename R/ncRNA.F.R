@@ -1,4 +1,5 @@
-ncRNA.F <- function(Feat, SQuali, SQualiN){
+ncRNA.F <-
+function(Feat, SQuali, SQualiN){
   Item <- c("/allele=", "/citation=", "/db_xref=", "/experiment=", "/function=", "/gene=", "/gene_synonym=", "/inference=", "/locus_tag=", "/map=", "/ncRNA_class=", "/note=", "/old_locus_tag=", "/operon=", "/product=", "/pseudogene=", "/standard_name=")
   ItemN <- c("allele", "citation", "db_xref", "experiment", "function", "gene", "gene_synonym", "inference", "locus_tag", "map", "ncRNA_class", "note", "old_locus_tag", "operon", "product", "pseudogene", "standard_name")
   Feat[length(Feat)] <- gsub("\\\",$", "", Feat[length(Feat)])

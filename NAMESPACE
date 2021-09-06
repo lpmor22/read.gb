@@ -2,3 +2,4 @@
 
 export(extract.gb)
 export(read.gb)
+importFrom(rentrez,entrez_fetch)

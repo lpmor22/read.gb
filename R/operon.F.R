@@ -1,4 +1,5 @@
-operon.F <- function(Feat, SQuali, SQualiN){
+operon.F <-
+function(Feat, SQuali, SQualiN){
   Item <- c("/allele=", "/citation=", "/db_xref=", "/experiment=", "/function=", "/inference=", "/map=", "/note=", "/operon=", "/phenotype=", "/pseudogene=", "/standard_name=")
   ItemN <- c("allele", "citation", "db_xref", "experiment", "function", "inference", "map", "note", "operon", "phenotype", "pseudogene", "standard_name")
   Feat[length(Feat)] <- gsub("\\\",$", "", Feat[length(Feat)])

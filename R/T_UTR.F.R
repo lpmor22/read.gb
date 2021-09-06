@@ -1,8 +1,9 @@
-T_UTR.F <- function(Feat, SQuali, SQualiN){
+T_UTR.F <-
+function(Feat, SQuali, SQualiN){
   Item <- c("/allele=", "/citation=", "/db_xref=", "/experiment=", "/function=", "/gene=", "/gene_synonym=", "/inference=", "/locus_tag=", "/map=", "/note=", "/old_locus_tag=", "/standard_name=")
   ItemN <- c("allele", "citation", "db_xref", "experiment", "function", "gene", "gene_synonym", "inference", "locus_tag", "map", "note", "old_locus_tag", "standard_name")
   Feat[length(Feat)] <- gsub("\\\",$", "", Feat[length(Feat)])
-  T_UTR <- data.frame("Location" = "T_UTR", "Qualifier" = gsub(".*T_UTR +([^.]+)\"*", "\\1", Feat[1], perl = T), stringsAsFactors = F)
+  T_UTR <- data.frame("Location" = "3'UTR", "Qualifier" = gsub(".*3'UTR +([^.]+)\"*", "\\1", Feat[1], perl = T), stringsAsFactors = F)
   for(i in 2:length(Feat)){
     for(j in 1:length(Item)){
       if(length(grep(Item[j], Feat[i], perl = T)) == 1){

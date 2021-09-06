@@ -1,27 +1,28 @@
-Reorganize.report <- function(Temp){
+Reorganize.report <-
+function(Temp){
   #### Separating the informations from a unique string ####
   LOCUS <- gsub(".*LOCUS([^.]+)\nDEFINITION.*", "\\1", Temp)
   LOCUS <- gsub("^ *|(?<= ) | *$", "", LOCUS, perl = TRUE)
   LOCUS <- gsub("\n", "", LOCUS)
   LOCUS <- gsub("\r", "", LOCUS)
-
+  
   Db <- gregexpr("DEFINITION", Temp)[[1]][1]
   De <- gregexpr("\nACCESSION", Temp)[[1]][1]
   DEFINITION <- substr(Temp, Db+10, De-1)
   DEFINITION <- gsub("^ *|(?<= ) | *$", "", DEFINITION, perl = TRUE)
   DEFINITION <- gsub("\n", "", DEFINITION)
   DEFINITION <- gsub("\r", "", DEFINITION)
-
+  
   ACCESSION <- gsub(".*ACCESSION([^.]+\n).*", "\\1", Temp)
   ACCESSION <- gsub("^ *|(?<= ) | *$", "", ACCESSION, perl = TRUE)
   ACCESSION <- gsub("\n", "", ACCESSION)
   ACCESSION <- gsub("\r", "", ACCESSION)
-
+  
   VERSION <- gsub(".*VERSION([^.]+)|\n.*", "\\1", Temp)
   VERSION <- gsub("^ *|(?<= ) | *$", "", VERSION, perl = TRUE)
   VERSION <- gsub("\n", "", VERSION)
   VERSION <- gsub("\r", "", VERSION)
-
+  
   Db <- gregexpr("DBLINK", Temp)[[1]][1]
   De <- gregexpr("\\nKEYWORDS", Temp)[[1]][1]
   if(Db > 0){
@@ -35,19 +36,19 @@ Reorganize.report <- function(Temp){
       DBLINK <- rbind(DBLINK, DB)
     }
   }
-
+  
   KEYWORDS <- gsub(".*KEYWORDS([^.]+)|\nSOURCE.*", "\\1", Temp)
   KEYWORDS <- gsub("^ *|(?<= ) | *$", "", KEYWORDS, perl = TRUE)
   KEYWORDS <- gsub("\n", "", KEYWORDS)
   KEYWORDS <- gsub("\r", "", KEYWORDS)
-
+  
   Sb <- gregexpr("SOURCE", Temp)[[1]][1]
   Se <- gregexpr("\n  ORGANISM", Temp)[[1]][1]
   SOURCE <- substr(Temp, Sb + 6, Se-1)
   SOURCE <- gsub("^ *|(?<= ) | *$", "", SOURCE, perl = TRUE)
   SOURCE <- gsub("\n", "", SOURCE)
   SOURCE <- gsub("\r", "", SOURCE)
-
+  
   if(length(grep("REFERENCE", Temp)) == 1){
     ORGANISM <- gsub(".*ORGANISM([^.]+)|\nREFERENCE.*", "\\1", Temp)
     ORGANISM <- gsub("^ *|(?<= ) | *$", "", ORGANISM, perl = TRUE)
@@ -60,7 +61,7 @@ Reorganize.report <- function(Temp){
     ORGANISM <- gsub("^ *|(?<= ) | *$", "", ORGANISM, perl = TRUE)
     ORGANISM <- gsub("\n", "", ORGANISM)
     ORGANISM <- gsub("\r", "", ORGANISM)
-
+    
   }
   
   ## Position of REFERENCE:
@@ -68,7 +69,7 @@ Reorganize.report <- function(Temp){
   Rem <- c(gregexpr("FEATURES", Temp)[[1]][1], gregexpr("COMMENT", Temp)[[1]][1])
   Re <- min(Rem[Rem > 0])
   REFERENCE <- substr(Temp, Rb, Re-1)
-
+  
   ## Position of COMMENT:
   Cb <- gregexpr("COMMENT", Temp)[[1]][1]
   Ce <- gregexpr("FEATURES", Temp)[[1]][1]
@@ -78,27 +79,38 @@ Reorganize.report <- function(Temp){
     COMMENT <- as.data.frame(strsplit(COMMENT, split = "\\n", perl = T)[[1]], stringsAsFactors = F)
     COMMENT <- apply(COMMENT, 1 , function(x){gsub(" {2,}", " ", x, perl = TRUE); gsub("^ *", "", x, perl = TRUE)})
   }
-
+  
   ## Position of FEATURES:
   Fb <- gregexpr("FEATURES", Temp)[[1]][1]
   Fe <- gregexpr("ORIGIN", Temp, ignore.case = F)[[1]][1]
+  if(Fe == -1){Fe = gregexpr("CONTIG", Temp, ignore.case = F)[[1]][1]}
   FEATURES <- substr(Temp, Fb+8, Fe-1)
   FEATURES <- gsub("\r", "", FEATURES)
   FEATURES <- strsplit(FEATURES, split = "\n", fixed = T)
-
+  
   Ob <- gregexpr("ORIGIN", Temp, useBytes = F)[[1]][1]
   Oe <- gregexpr("$", Temp, useBytes = F)[[1]][1]
+  if(Ob != -1){
   ORIGIN <- substr(Temp, Ob+6, Oe-2)
   ORIGIN <- gsub("\r", "", ORIGIN)
   ORIGIN <- strsplit(ORIGIN, split = "\n", fixed = T)
   ORIGIN <- ORIGIN[[1]][-1]
-
+  }
+  
   #### Grouping into a list ####
+  if(exists("ORIGIN") == T){
   if(exists("COMMENT") == T & exists("DBLINK") == T){Order <- c("LOCUS", "DEFINITION", "ACCESSION", "VERSION", "DBLINK", "KEYWORDS", "SOURCE", "ORGANISM", "REFERENCE", "COMMENT", "FEATURES", "ORIGIN")}
   if(exists("COMMENT") == T & exists("DBLINK") == F){Order <- c("LOCUS", "DEFINITION", "ACCESSION", "VERSION", "KEYWORDS", "SOURCE", "ORGANISM", "REFERENCE", "COMMENT", "FEATURES", "ORIGIN")}
   if(exists("COMMENT") == F & exists("DBLINK") == T){Order <- c("LOCUS", "DEFINITION", "ACCESSION", "VERSION", "DBLINK", "KEYWORDS", "SOURCE", "ORGANISM", "REFERENCE", "FEATURES", "ORIGIN")}
   if(exists("COMMENT") == F & exists("DBLINK") == F){Order <- c("LOCUS", "DEFINITION", "ACCESSION", "VERSION", "KEYWORDS", "SOURCE", "ORGANISM", "REFERENCE", "FEATURES", "ORIGIN")}
-
+  } else {
+    if(exists("COMMENT") == T & exists("DBLINK") == T){Order <- c("LOCUS", "DEFINITION", "ACCESSION", "VERSION", "DBLINK", "KEYWORDS", "SOURCE", "ORGANISM", "REFERENCE", "COMMENT", "FEATURES")}
+    if(exists("COMMENT") == T & exists("DBLINK") == F){Order <- c("LOCUS", "DEFINITION", "ACCESSION", "VERSION", "KEYWORDS", "SOURCE", "ORGANISM", "REFERENCE", "COMMENT", "FEATURES")}
+    if(exists("COMMENT") == F & exists("DBLINK") == T){Order <- c("LOCUS", "DEFINITION", "ACCESSION", "VERSION", "DBLINK", "KEYWORDS", "SOURCE", "ORGANISM", "REFERENCE", "FEATURES")}
+    if(exists("COMMENT") == F & exists("DBLINK") == F){Order <- c("LOCUS", "DEFINITION", "ACCESSION", "VERSION", "KEYWORDS", "SOURCE", "ORGANISM", "REFERENCE", "FEATURES")}
+  }
+  
+  
   y <- list()
   for(i in 1:length(Order)){
     y[[length(y)+1]] <- eval(parse(text = Order[i]))

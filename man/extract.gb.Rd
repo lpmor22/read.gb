@@ -19,7 +19,7 @@ This function regroup every items found in a list if they correspond to the char
 }
 \examples{
 \dontrun{
-extract.gb(x, "gene")
+extract.gb(Example, "gene")
 }
 
 }

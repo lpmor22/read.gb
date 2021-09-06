@@ -1,4 +1,5 @@
-unsure.F <- function(Feat, SQuali, SQualiN){
+unsure.F <-
+function(Feat, SQuali, SQualiN){
   Item <- c("/allele=", "/citation=", "/compare=", "/db_xref=", "/experiment=", "/gene=", "/gene_synonym=", "/inference=", "/locus_tag=", "/map=", "/note=", "/old_locus_tag=", "/replace=")
   ItemN <- c("allele", "citation", "compare", "db_xref", "experiment", "gene", "gene_synonym", "inference", "locus_tag", "map", "note", "old_locus_tag", "replace")
   Feat[length(Feat)] <- gsub("\\\",$", "", Feat[length(Feat)])

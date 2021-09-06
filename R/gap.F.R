@@ -1,4 +1,5 @@
-gap.F <- function(Feat, SQuali, SQualiN){
+gap.F <-
+function(Feat, SQuali, SQualiN){
   Item <- c("/estimated_length=", "/experiment=", "/inference=", "/map=", "/note=")
   ItemN <- c("estimated_length", "experiment", "inference", "map", "note")
   Feat[length(Feat)] <- gsub("\\\",$", "", Feat[length(Feat)])

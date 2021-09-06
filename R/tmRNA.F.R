@@ -1,4 +1,5 @@
-tmRNA.F <- function(Feat, SQuali, SQualiN){
+tmRNA.F <-
+function(Feat, SQuali, SQualiN){
   Item <- c("/allele=", "/citation=", "/db_xref=", "/experiment=", "/function=", "/gene=", "/gene_synonym=", "/inference=", "/locus_tag=", "/map=", "/note=", "/old_locus_tag=", "/product=", "/pseudogene=", "/standard_name=", "/tag_peptide=")
   ItemN <- c("allele", "citation", "db_xref", "experiment", "function", "gene", "gene_synonym", "inference", "locus_tag", "map", "note", "old_locus_tag", "product", "pseudogene", "standard_name", "tag_peptide")
   Feat[length(Feat)] <- gsub("\\\",$", "", Feat[length(Feat)])

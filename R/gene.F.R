@@ -1,4 +1,5 @@
-gene.F <- function(Feat, SQuali, SQualiN){
+gene.F <-
+function(Feat, SQuali, SQualiN){
   Item <- c("/allele=", "/citation=", "/db_xref=", "/experiment=", "/function=", "/gene=", "/gene_synonym=", "/inference=", "/locus_tag=", "/map=", "/note=", "/old_locus_tag=", "/operon=", "/product=", "/pseudogene=", "/standard_name=")
   ItemN <- c("allele", "citation", "db_xref", "experiment", "function", "gene", "gene_synonym", "inference", "locus_tag", "map", "note", "old_locus_tag", "operon", "product", "pseudogene", "standard_name")
   Feat[length(Feat)] <- gsub("\\\",$", "", Feat[length(Feat)])
@@ -24,10 +25,27 @@ gene.F <- function(Feat, SQuali, SQualiN){
         gene <- rbind(gene, c(SQuali[k], SQualiN[k]))
       }
     }
+
+    ## If a PCR primers part is included in the gene part :
+    if(length(grep("PCR_primers=", Feat[i])) == 1){
+      s <- gsub(".*=\\\\\\\"([^.]+)\"*", "\\1", Feat[i])
+      k <-i+1
+      while(length(grep("\\\\\"$", Feat[k])) != 1 && is.na(Feat[k]) == F){
+        s <- paste(s, Feat[k], collapse = "")
+        k <- k+1
+      }
+      if(is.na(Feat[k]) == F){
+        s <- paste(s, Feat[k], collapse = "")
+      }
+      s <- gsub("PCR_primers=", "", s)
+      gene <- rbind(gene, c("PCR_primers",  s))
+      gene[length(gene[,1]),2] <- gsub("\\\"", "", gene[length(gene[,1]),2], perl = TRUE)
+
+    }
   }
   gene <- apply(gene, 2, function(x){gsub(" {2,}", " ", x, perl = TRUE)})
   gene <- apply(gene, 2, function(x){gsub("\"", "", x, fixed = T)})
   gene <- apply(gene, 2, function(x){gsub("\\", "", x, fixed = T)})
-  gene <- apply(gene, 2, function(x){gsub("[^[:alnum:][:space:][]'.,:_<>()-]", "", x, perl = TRUE)})
+  gene <- apply(gene, 2, function(x){gsub("[^[:alnum:][:space:][]'.,:_<>()-]|, $", "", x, perl = TRUE)})
   return(gene)
 }

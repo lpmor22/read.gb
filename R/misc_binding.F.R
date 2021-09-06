@@ -1,4 +1,5 @@
-misc_binding.F <- function(Feat, SQuali, SQualiN){
+misc_binding.F <-
+function(Feat, SQuali, SQualiN){
   Item <- c("/allele=", "/bound_moiety=", "/citation=", "/db_xref=", "/experiment=", "/function=", "/gene=", "/gene_synonym=", "/inference=", "/locus_tag=", "/map=", "/note=", "/old_locus_tag=")
   ItemN <- c("allele", "bound_moiety", "citation", "db_xref", "experiment", "function", "gene", "gene_synonym", "inference", "locus_tag", "map", "note", "old_locus_tag")
   Feat[length(Feat)] <- gsub("\\\",$", "", Feat[length(Feat)])

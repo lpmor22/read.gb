@@ -1,4 +1,5 @@
-centromere.F <- function(Feat, SQuali, SQualiN){
+centromere.F <-
+function(Feat, SQuali, SQualiN){
   Item <- c("/citation=", "/db_xref=", "/experiment=", "/inference=", "/note=", "/standard_name=")
   ItemN <- c("citation", "db_xref", "experiment", "inference", "note", "standard_name")
   Feat[length(Feat)] <- gsub("\\\",$", "", Feat[length(Feat)])
