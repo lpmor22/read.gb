@@ -1,5 +1,8 @@
 variation.F <-
 function(Feat, SQuali, SQualiN){
+  if (length(Feat) == 1) {
+    return(NULL)
+  }
   Item <- c("/allele=", "/citation=", "/compare=", "/db_xref=", "/experiment=", "/frequency=", "/gene=", "/gene_synonym=", "/inference=", "/locus_tag=", "/map=", "/note=", "/old_locus_tag=", "/phenotype=", "/product=", "/replace=", "/standard_name=")
   ItemN <- c("allele", "citation", "compare", "db_xref", "experiment", "frequency", "gene", "gene_synonym", "inference", "locus_tag", "map", "note", "old_locus_tag", "phenotype", "product", "replace", "standard_name")
   Feat[length(Feat)] <- gsub("\\\",$", "", Feat[length(Feat)])

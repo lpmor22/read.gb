@@ -1,5 +1,8 @@
 telomere.F <-
 function(Feat, SQuali, SQualiN){
+  if (length(Feat) == 1) {
+    return(NULL)
+  }
   Item <- c("/citation=", "/db_xref=", "/experiment=", "/inference=", "/note=","/rpt_type=", "/rpt_unit_range=", "/rpt_unit_seq=", "/standard_name=")
   ItemN <- c("citation", "db_xref", "experiment", "inference", "note","rpt_type", "rpt_unit_range", "rpt_unit_seq", "standard_name")
   Feat[length(Feat)] <- gsub("\\\",$", "", Feat[length(Feat)])

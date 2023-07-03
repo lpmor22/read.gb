@@ -1,5 +1,8 @@
 intron.F <-
 function(Feat, SQuali, SQualiN){
+  if (length(Feat) == 1) {
+    return(NULL)
+  }
   Item <- c("/allele=", "/citation=", "/db_xref=", "/experiment=", "/function=", "/gene=", "/gene_synonym=", "/inference=", "/locus_tag=", "/map=", "/note=", "/number=", "/old_locus_tag=", "/pseudogene=", "/standard_name=")
   ItemN <- c("allele", "citation", "db_xref", "experiment", "function", "gene", "gene_synonym", "inference", "locus_tag", "map", "note", "number", "old_locus_tag", "pseudogene", "standard_name")
   Feat[length(Feat)] <- gsub("\\\",$", "", Feat[length(Feat)])

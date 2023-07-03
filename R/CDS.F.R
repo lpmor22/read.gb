@@ -1,5 +1,8 @@
 CDS.F <-
 function(Feat, SQuali, SQualiN){
+  if (length(Feat) == 1) {
+    return(NULL)
+  }
   Item <- c("/allele=", "/artificial_location=", "/citation=", "/codon_start=", "/db_xref=", "/EC_number=", "/exception=", "/experiment=", "/function=", "/gene=", "/gene_synonym=", "/inference=", "/locus_tag=", "/map=", "/note=", "/number=", "/old_locus_tag=", "/operon=", "/product=", "/protein_id=", "/pseudogene=", "/standard_name=", "/translation=", "/transl_except=", "/transl_table=")
   ItemN <- c("allele", "artificial_location", "citation", "codon_start", "db_xref", "EC_number", "exception", "experiment", "function", "gene", "gene_synonym", "inference", "locus_tag", "map", "note",  "number", "old_locus_tag", "operon", "product", "protein_id", "pseudogene", "standard_name", "translation", "transl_except", "transl_table")
   Feat[length(Feat)] <- gsub("\\\",$", "", Feat[length(Feat)])

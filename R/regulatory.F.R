@@ -1,5 +1,8 @@
 regulatory.F <-
 function(Feat, SQuali, SQualiN){
+  if (length(Feat) == 1) {
+    return(NULL)
+  }
   Item <- c("/allele=", "/bound_moiety=", "/citation=", "/db_xref=", "/experiment=", "/function=", "/gene=", "/gene_synonym=", "/inference=", "/locus_tag=", "/map=", "/note=", "/old_locus_tag=", "/operon=", "/phenotype=", "/pseudogene=", "/regulatory_class=", "/standard_name=")
   ItemN <- c("allele", "bound_moiety", "citation", "db_xref", "experiment", "function", "gene", "gene_synonym", "inference", "locus_tag", "map", "note", "old_locus_tag", "operon", "phenotype", "pseudogene", "regulatory_class", "standard_name")
   Feat[length(Feat)] <- gsub("\\\",$", "", Feat[length(Feat)])

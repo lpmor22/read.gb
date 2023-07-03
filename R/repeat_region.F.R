@@ -1,5 +1,8 @@
 repeat_region.F <-
 function(Feat, SQuali, SQualiN){
+  if (length(Feat) == 1) {
+    return(NULL)
+  }
   Item <- c("/allele=", "/citation=", "/db_xref=", "/experiment=", "/function=", "/gene=", "/gene_synonym=", "/inference=", "/locus_tag=", "/map=", "/note=", "/old_locus_tag=", "/rpt_family=", "/rpt_type=", "/rpt_unit_range=", "/rpt_unit_seq=", "/satellite=", "/standard_name=")
   ItemN <- c("allele", "citation", "db_xref", "experiment", "function", "gene", "gene_synonym", "inference", "locus_tag", "map", "note", "old_locus_tag", "rpt_family", "rpt_type", "rpt_unit_range", "rpt_unit_seq", "satellite", "standard_name")
   Feat[length(Feat)] <- gsub("\\\",$", "", Feat[length(Feat)])

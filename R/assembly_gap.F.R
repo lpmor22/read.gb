@@ -1,5 +1,8 @@
 assembly_gap.F <-
 function(Feat, SQuali, SQualiN){
+  if (length(Feat) == 1) {
+    return(NULL)
+  }
   Item <- c("/estimated_length=", "/gap_type=", "/linkage_evidence=")
   ItemN <- c("estimated_length", "gap_type", "linkage_evidence")
   Feat[length(Feat)] <- gsub("\\\",$", "", Feat[length(Feat)])

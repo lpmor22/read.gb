@@ -1,5 +1,8 @@
 gap.F <-
 function(Feat, SQuali, SQualiN){
+  if (length(Feat) == 1) {
+    return(NULL)
+  }
   Item <- c("/estimated_length=", "/experiment=", "/inference=", "/map=", "/note=")
   ItemN <- c("estimated_length", "experiment", "inference", "map", "note")
   Feat[length(Feat)] <- gsub("\\\",$", "", Feat[length(Feat)])

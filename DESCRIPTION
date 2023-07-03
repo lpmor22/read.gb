@@ -1,12 +1,17 @@
 Package: read.gb
 Title: Open GenBank Files
-Version: 2.2
+Version: 2.2.1
 Authors@R: 
-    person(given = "Robin",
-           family = "Mercier",
-           role = c("aut", "cre"),
-           email = "robin.largon.mercier@hotmail.fr")
+    c(person(given = "Robin",
+             family = "Mercier",
+             role = c("aut", "cre"),
+             email = "robin.largon.mercier@hotmail.fr"),
+      person(given = "Laise",
+             family = "de Moraes",
+             role = c("ctb"),
+             email = "laise.moraes@fiocruz.br"))
 Description: Opens complete record(s) with .gb extension from the NCBI/GenBank Nucleotide database and returns a list containing shaped record(s). These kind of files contains detailed records of DNA samples (locus, organism, type of sequence, source of the sequence...). An example of record can be found at <https://www.ncbi.nlm.nih.gov/nuccore/HE799070>.
+Note: In version 2.2.1, Laise de Moraes made corrections to the functions that extract features in GenBank files by adding an if statement to handle cases with only one line, which prevented function breaking.
 License: GPL-3
 Encoding: UTF-8
 RoxygenNote: 7.1.1
